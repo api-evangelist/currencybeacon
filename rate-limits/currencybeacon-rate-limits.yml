@@ -1,0 +1,36 @@
+name: CurrencyBeacon Rate Limits
+description: Rate limiting details for the CurrencyBeacon currency exchange rates API
+url: https://currencybeacon.com/api-documentation
+rateLimits:
+  - plan: Developer Sandbox
+    requests: 5000
+    period: monthly
+    updateFrequency: hourly
+    errorCode: 429
+    errorMessage: Exceeding request volume limit
+  - plan: Basic
+    requests: 50000
+    period: monthly
+    updateFrequency: 15 minutes
+    errorCode: 429
+    errorMessage: Exceeding request volume limit
+  - plan: Startup
+    requests: 500000
+    period: monthly
+    updateFrequency: 1 minute
+    errorCode: 429
+    errorMessage: Exceeding request volume limit
+  - plan: Professional
+    requests: 2000000
+    period: monthly
+    updateFrequency: real-time
+    errorCode: 429
+    errorMessage: Exceeding request volume limit
+notes:
+  - REST API calls and MCP tool usage share the same request quota
+  - All requests are tracked against the monthly allocation
+  - Rate limit errors return HTTP 429 status code
+  - Authentication errors return HTTP 401 or 403 status codes
+  - Server errors return HTTP 500 status codes
+  - The API uses 256-bit SSL encryption on all endpoints
+  - Uptime is claimed at 99.99% with sub-100ms target response times

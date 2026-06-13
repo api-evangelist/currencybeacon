@@ -1,0 +1,64 @@
+name: CurrencyBeacon FinOps
+description: Financial operations guidance for managing CurrencyBeacon API costs
+url: https://currencybeacon.com/pricing
+costDrivers:
+  - name: Monthly Request Volume
+    description: Primary cost driver; all API calls count against monthly quota regardless of endpoint
+    unit: requests per month
+    notes: REST API and MCP tool calls share the same quota
+  - name: Update Frequency
+    description: Higher-tier plans provide more frequent data updates, from hourly to real-time
+    unit: plan tier
+  - name: Feature Access
+    description: Timeseries API and base currency switching are only available on Startup and higher plans
+    unit: plan tier
+costOptimization:
+  - tip: Cache exchange rates locally to reduce redundant API calls
+    impact: high
+  - tip: Use the symbols parameter to fetch only needed currencies rather than all rates
+    impact: medium
+  - tip: Use the /convert endpoint instead of fetching rates and calculating manually to avoid extra calls
+    impact: low
+  - tip: Subscribe to annual billing for discounts (Basic saves 17%, Startup saves 24%, Professional saves 10%)
+    impact: medium
+  - tip: Monitor monthly usage via API dashboard before hitting limits to avoid service interruption
+    impact: high
+  - tip: For historical data, cache results since past rates do not change
+    impact: high
+pricing:
+  monthly:
+    - plan: Developer Sandbox
+      price: 0
+      requests: 5000
+    - plan: Basic
+      price: 10
+      requests: 50000
+    - plan: Startup
+      price: 99
+      requests: 500000
+    - plan: Professional
+      price: 599
+      requests: 2000000
+  annual:
+    - plan: Basic
+      price: 100
+      requests: 50000
+      monthlySavings: 20
+    - plan: Startup
+      price: 900
+      requests: 500000
+      monthlySavings: 288
+    - plan: Professional
+      price: 6500
+      requests: 2000000
+      monthlySavings: 688
+  costPerThousandRequests:
+    - plan: Basic
+      monthly: 0.20
+      annual: 0.167
+    - plan: Startup
+      monthly: 0.198
+      annual: 0.15
+    - plan: Professional
+      monthly: 0.2995
+      annual: 0.271

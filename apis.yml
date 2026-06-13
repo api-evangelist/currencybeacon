@@ -1,0 +1,65 @@
+aid: currencybeacon
+name: CurrencyBeacon
+description: >-
+  Currency exchange rates REST API providing real-time mid-market rates for 170+
+  fiat currencies and cryptocurrencies, with 30 years of historical data, server-side
+  conversion, timeseries analysis, and MCP server support for LLM integrations.
+  Sourced from central banks and trusted financial institutions with 99.99% uptime.
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/currencybeacon/refs/heads/main/apis.yml
+created: '2026-06-13'
+modified: '2026-06-13'
+specificationVersion: '0.19'
+tags:
+  - Currency
+  - Exchange Rates
+  - Forex
+  - Cryptocurrency
+  - Financial Data
+  - Historical Rates
+  - Currency Conversion
+apis:
+  - aid: currencybeacon:currencybeacon-api
+    name: CurrencyBeacon API
+    description: >-
+      REST API for real-time and historical currency exchange rates covering 170+
+      fiat currencies and cryptocurrencies, with endpoints for latest rates, historical
+      data, conversion, timeseries, and supported currencies list.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://currencybeacon.com
+    baseURL: https://api.currencybeacon.com/v1
+    tags:
+      - Currency
+      - Exchange Rates
+      - Forex
+      - Cryptocurrency
+    properties:
+      - type: Documentation
+        url: https://currencybeacon.com/api-documentation
+      - type: OpenAPI
+        url: https://currencybeacon.com/api-documentation
+    contact:
+      - FN: CurrencyBeacon Support
+        email: info@currencybeacon.com
+common:
+  - type: Website
+    url: https://currencybeacon.com
+  - type: Documentation
+    url: https://currencybeacon.com/api-documentation
+  - type: GitHubOrg
+    url: https://github.com/currencybeacon
+  - type: Pricing
+    url: https://currencybeacon.com/pricing
+  - type: StatusPage
+    url: https://status.currencybeacon.com
+  - type: X
+    url: https://x.com/currencybeacon
+  - type: Plans
+    url: plans/currencybeacon-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/currencybeacon-rate-limits.yml
+  - type: FinOps
+    url: finops/currencybeacon-finops.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

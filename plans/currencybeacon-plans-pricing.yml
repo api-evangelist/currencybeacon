@@ -1,0 +1,73 @@
+name: CurrencyBeacon Plans and Pricing
+description: Pricing plans for the CurrencyBeacon currency exchange rates API
+url: https://currencybeacon.com/pricing
+plans:
+  - name: Developer Sandbox
+    description: Free tier for developers to explore and test the API
+    price: 0
+    currency: USD
+    billingCycle: monthly
+    requests: 5000
+    updateFrequency: hourly
+    features:
+      - Latest exchange rates
+      - Historical exchange rates
+      - Currency conversion
+      - Community support
+  - name: Basic
+    description: Entry-level paid plan for small applications
+    price: 10
+    currency: USD
+    billingCycle: monthly
+    annualPrice: 100
+    requests: 50000
+    updateFrequency: 15 minutes
+    features:
+      - Latest exchange rates
+      - Historical exchange rates
+      - Currency conversion
+      - Email support
+  - name: Startup
+    description: Mid-tier plan for growing applications, most popular
+    price: 99
+    currency: USD
+    billingCycle: monthly
+    annualPrice: 900
+    requests: 500000
+    updateFrequency: 1 minute
+    features:
+      - Latest exchange rates
+      - Historical exchange rates
+      - Currency conversion
+      - Timeseries API
+      - Base currency switching
+      - Email support
+  - name: Professional
+    description: High-volume plan with real-time updates and SLA guarantee
+    price: 599
+    currency: USD
+    billingCycle: monthly
+    annualPrice: 6500
+    requests: 2000000
+    updateFrequency: real-time
+    features:
+      - Latest exchange rates
+      - Historical exchange rates
+      - Currency conversion
+      - Timeseries API
+      - Base currency switching
+      - Dedicated support
+      - Guaranteed uptime SLA
+  - name: Enterprise
+    description: Custom plan for high-volume enterprise needs
+    price: custom
+    currency: USD
+    billingCycle: custom
+    requests: custom
+    updateFrequency: real-time
+    features:
+      - Custom request limits
+      - Invoice billing
+      - Technical account support
+      - Specialized deployment options
+      - Dedicated support
