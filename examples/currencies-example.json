@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "code": 200,
+    "disclaimer": "Usage subject to terms. See https://currencybeacon.com/terms"
+  },
+  "currencies": [
+    {
+      "short_code": "USD",
+      "name": "United States Dollar",
+      "symbol": "$",
+      "precision": 2,
+      "subunit": 100,
+      "subunit_to_unit": 100,
+      "isCrypto": false
+    },
+    {
+      "short_code": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "precision": 2,
+      "subunit": 100,
+      "subunit_to_unit": 100,
+      "isCrypto": false
+    },
+    {
+      "short_code": "GBP",
+      "name": "British Pound Sterling",
+      "symbol": "£",
+      "precision": 2,
+      "subunit": 100,
+      "subunit_to_unit": 100,
+      "isCrypto": false
+    },
+    {
+      "short_code": "JPY",
+      "name": "Japanese Yen",
+      "symbol": "¥",
+      "precision": 0,
+      "subunit": 1,
+      "subunit_to_unit": 1,
+      "isCrypto": false
+    },
+    {
+      "short_code": "BTC",
+      "name": "Bitcoin",
+      "symbol": "₿",
+      "precision": 8,
+      "subunit": 100000000,
+      "subunit_to_unit": 100000000,
+      "isCrypto": true
+    },
+    {
+      "short_code": "ETH",
+      "name": "Ethereum",
+      "symbol": "Ξ",
+      "precision": 8,
+      "subunit": 100000000,
+      "subunit_to_unit": 100000000,
+      "isCrypto": true
+    }
+  ]
+}

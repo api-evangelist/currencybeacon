@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/currencybeacon/main/json-schema/currency-info.json",
+  "title": "CurrencyInfo",
+  "description": "Schema describing a single currency entry as returned by the CurrencyBeacon /currencies endpoint.",
+  "type": "object",
+  "properties": {
+    "short_code": {
+      "type": "string",
+      "description": "ISO 4217 currency code or cryptocurrency ticker",
+      "minLength": 2,
+      "maxLength": 10,
+      "example": "USD"
+    },
+    "name": {
+      "type": "string",
+      "description": "Full name of the currency",
+      "example": "United States Dollar"
+    },
+    "symbol": {
+      "type": "string",
+      "description": "Currency symbol",
+      "example": "$"
+    },
+    "precision": {
+      "type": "integer",
+      "description": "Number of decimal places used for this currency",
+      "minimum": 0,
+      "example": 2
+    },
+    "subunit": {
+      "type": "integer",
+      "description": "Number of subunits in one unit",
+      "minimum": 1,
+      "example": 100
+    },
+    "subunit_to_unit": {
+      "type": "integer",
+      "description": "Subunit to unit conversion factor",
+      "minimum": 1,
+      "example": 100
+    },
+    "isCrypto": {
+      "type": "boolean",
+      "description": "Whether the currency is a cryptocurrency",
+      "example": false
+    }
+  },
+  "required": ["short_code", "name", "symbol", "isCrypto"]
+}

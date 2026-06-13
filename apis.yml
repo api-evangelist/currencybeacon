@@ -37,7 +37,7 @@ apis:
       - type: Documentation
         url: https://currencybeacon.com/api-documentation
       - type: OpenAPI
-        url: https://currencybeacon.com/api-documentation
+        url: https://raw.githubusercontent.com/api-evangelist/currencybeacon/refs/heads/main/openapi/currencybeacon-openapi.yml
     contact:
       - FN: CurrencyBeacon Support
         email: info@currencybeacon.com

@@ -1,0 +1,11 @@
+{
+  "meta": {
+    "code": 200,
+    "disclaimer": "Usage subject to terms. See https://currencybeacon.com/terms"
+  },
+  "date": "2026-06-13",
+  "from": "USD",
+  "to": "EUR",
+  "amount": 100,
+  "value": 91.85
+}

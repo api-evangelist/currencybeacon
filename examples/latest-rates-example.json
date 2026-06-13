@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "code": 200,
+    "disclaimer": "Usage subject to terms. See https://currencybeacon.com/terms"
+  },
+  "date": "2026-06-13",
+  "base": "USD",
+  "rates": {
+    "EUR": 0.9185,
+    "GBP": 0.7862,
+    "JPY": 157.42,
+    "CAD": 1.3621,
+    "AUD": 1.5412,
+    "CHF": 0.8975,
+    "CNY": 7.2345,
+    "INR": 83.45,
+    "MXN": 17.23,
+    "BRL": 5.12,
+    "KRW": 1325.60,
+    "SGD": 1.3489,
+    "HKD": 7.8103,
+    "NOK": 10.52,
+    "SEK": 10.38,
+    "DKK": 6.85,
+    "NZD": 1.6723,
+    "ZAR": 18.42,
+    "BTC": 0.0000152,
+    "ETH": 0.000285
+  }
+}

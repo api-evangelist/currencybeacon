@@ -1,0 +1,105 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "api": "https://schema.org/WebAPI",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dcterms": "http://purl.org/dc/terms/"
+  },
+  "@type": "WebAPI",
+  "@id": "https://currencybeacon.com",
+  "name": "CurrencyBeacon API",
+  "description": "REST API for real-time and historical currency exchange rates covering 170+ fiat currencies and cryptocurrencies, with 30 years of historical data, server-side conversion, timeseries analysis, and MCP server support for LLM integrations.",
+  "url": "https://currencybeacon.com",
+  "documentation": "https://currencybeacon.com/api-documentation",
+  "termsOfService": "https://currencybeacon.com/terms",
+  "provider": {
+    "@type": "Organization",
+    "name": "CurrencyBeacon",
+    "url": "https://currencybeacon.com",
+    "email": "info@currencybeacon.com",
+    "sameAs": [
+      "https://github.com/currencybeacon",
+      "https://x.com/currencybeacon"
+    ]
+  },
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Developer Sandbox",
+      "description": "Free tier with 5,000 requests/month and hourly rate updates.",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    {
+      "@type": "Offer",
+      "name": "Production Starter",
+      "description": "50,000 requests/month with 15-minute rate updates.",
+      "price": "10",
+      "priceCurrency": "USD",
+      "billingIncrement": "P1M"
+    },
+    {
+      "@type": "Offer",
+      "name": "Growing Teams",
+      "description": "500,000 requests/month with 1-minute rate updates.",
+      "price": "99",
+      "priceCurrency": "USD",
+      "billingIncrement": "P1M"
+    },
+    {
+      "@type": "Offer",
+      "name": "Scale Plan",
+      "description": "2,000,000 requests/month with real-time rate updates.",
+      "price": "599",
+      "priceCurrency": "USD",
+      "billingIncrement": "P1M"
+    }
+  ],
+  "hasAPI": {
+    "@type": "WebAPI",
+    "name": "CurrencyBeacon REST API v1",
+    "endpointURL": "https://api.currencybeacon.com/v1",
+    "documentation": "https://currencybeacon.com/api-documentation",
+    "availableChannel": [
+      {
+        "@type": "ServiceChannel",
+        "name": "GET /latest",
+        "description": "Retrieve real-time mid-market exchange rates for a base currency."
+      },
+      {
+        "@type": "ServiceChannel",
+        "name": "GET /historical",
+        "description": "Retrieve historical exchange rates for a specific date (up to 30 years of data)."
+      },
+      {
+        "@type": "ServiceChannel",
+        "name": "GET /convert",
+        "description": "Convert an amount from one currency to another using real-time or historical rates."
+      },
+      {
+        "@type": "ServiceChannel",
+        "name": "GET /timeseries",
+        "description": "Retrieve exchange rate time-series data across a date range. Startup and Pro plans only."
+      },
+      {
+        "@type": "ServiceChannel",
+        "name": "GET /currencies",
+        "description": "List all supported fiat currencies and cryptocurrencies."
+      }
+    ]
+  },
+  "applicationCategory": "FinancialData",
+  "keywords": [
+    "currency",
+    "exchange rates",
+    "forex",
+    "cryptocurrency",
+    "financial data",
+    "historical rates",
+    "currency conversion",
+    "REST API",
+    "MCP"
+  ],
+  "dcterms:created": "2026-06-13",
+  "dcterms:modified": "2026-06-13"
+}

@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "code": 200,
+    "disclaimer": "Usage subject to terms. See https://currencybeacon.com/terms"
+  },
+  "start_date": "2026-06-01",
+  "end_date": "2026-06-05",
+  "base": "USD",
+  "rates": {
+    "2026-06-01": {
+      "EUR": 0.9190,
+      "GBP": 0.7870
+    },
+    "2026-06-02": {
+      "EUR": 0.9185,
+      "GBP": 0.7865
+    },
+    "2026-06-03": {
+      "EUR": 0.9178,
+      "GBP": 0.7858
+    },
+    "2026-06-04": {
+      "EUR": 0.9182,
+      "GBP": 0.7862
+    },
+    "2026-06-05": {
+      "EUR": 0.9175,
+      "GBP": 0.7855
+    }
+  }
+}

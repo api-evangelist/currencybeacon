@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/currencybeacon/main/json-schema/conversion-response.json",
+  "title": "ConversionResponse",
+  "description": "Response schema for the CurrencyBeacon /convert endpoint.",
+  "type": "object",
+  "properties": {
+    "meta": {
+      "type": "object",
+      "description": "Response metadata",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "description": "HTTP status code",
+          "example": 200
+        },
+        "disclaimer": {
+          "type": "string",
+          "description": "Usage disclaimer text"
+        }
+      },
+      "required": ["code"]
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date used for the conversion exchange rate"
+    },
+    "from": {
+      "type": "string",
+      "description": "Source currency ISO 4217 code",
+      "minLength": 3,
+      "maxLength": 3,
+      "example": "USD"
+    },
+    "to": {
+      "type": "string",
+      "description": "Target currency ISO 4217 code",
+      "minLength": 3,
+      "maxLength": 3,
+      "example": "EUR"
+    },
+    "amount": {
+      "type": "number",
+      "format": "double",
+      "description": "Original amount in source currency",
+      "minimum": 0
+    },
+    "value": {
+      "type": "number",
+      "format": "double",
+      "description": "Converted amount in target currency",
+      "minimum": 0
+    }
+  },
+  "required": ["meta", "date", "from", "to", "amount", "value"]
+}

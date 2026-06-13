@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/currencybeacon/main/json-schema/latest-rates-response.json",
+  "title": "LatestRatesResponse",
+  "description": "Response schema for the CurrencyBeacon /latest endpoint returning real-time exchange rates.",
+  "type": "object",
+  "properties": {
+    "meta": {
+      "type": "object",
+      "description": "Response metadata",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "description": "HTTP status code",
+          "example": 200
+        },
+        "disclaimer": {
+          "type": "string",
+          "description": "Usage disclaimer text"
+        }
+      },
+      "required": ["code"]
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of the exchange rates (YYYY-MM-DD)"
+    },
+    "base": {
+      "type": "string",
+      "description": "ISO 4217 base currency code",
+      "minLength": 3,
+      "maxLength": 3,
+      "example": "USD"
+    },
+    "rates": {
+      "type": "object",
+      "description": "Map of currency codes to their exchange rate relative to base",
+      "additionalProperties": {
+        "type": "number",
+        "format": "double",
+        "minimum": 0
+      }
+    }
+  },
+  "required": ["meta", "date", "base", "rates"]
+}

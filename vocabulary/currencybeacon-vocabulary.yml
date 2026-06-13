@@ -1,0 +1,103 @@
+vocabulary:
+  - term: base
+    definition: >-
+      The reference currency against which all exchange rates in a response are
+      quoted. Specified as a three-letter ISO 4217 code (e.g., USD). All rates
+      represent how much of another currency equals one unit of the base currency.
+    type: parameter
+    context: rates, conversion, timeseries
+
+  - term: symbols
+    definition: >-
+      A comma-separated list of ISO 4217 currency codes used to filter the
+      currencies returned in a rates response. When omitted, all supported
+      currencies are included.
+    type: parameter
+    context: latest, historical, timeseries
+
+  - term: mid-market rate
+    definition: >-
+      The midpoint between buy and sell prices in the foreign exchange market.
+      CurrencyBeacon returns mid-market rates sourced from central banks and
+      financial institutions, making them the fairest benchmark but not
+      necessarily the rate you will receive at a bank or exchange counter.
+    type: concept
+    context: rates, conversion
+
+  - term: ISO 4217
+    definition: >-
+      International standard defining three-letter alphabetic codes for
+      currencies (e.g., USD, EUR, GBP) and three-digit numeric codes.
+      CurrencyBeacon uses the alphabetic codes for all currency identifiers.
+    type: standard
+    context: global
+
+  - term: api_key
+    definition: >-
+      The authentication credential issued to each CurrencyBeacon account.
+      Can be passed either as a query parameter (?api_key=...) or as a
+      Bearer token in the HTTP Authorization header.
+    type: authentication
+    context: global
+
+  - term: fiat currency
+    definition: >-
+      Government-issued currency not backed by a physical commodity (e.g., USD,
+      EUR, GBP). CurrencyBeacon supports 170+ fiat currencies.
+    type: concept
+    context: currencies
+
+  - term: cryptocurrency
+    definition: >-
+      Decentralised digital currency using cryptography (e.g., BTC, ETH).
+      Identified in the CurrencyBeacon API by the isCrypto: true flag.
+    type: concept
+    context: currencies
+
+  - term: timeseries
+    definition: >-
+      A dataset of exchange rates sampled across a date range (start_date to
+      end_date). The timeseries endpoint returns one rate object per day within
+      the range. Available on Startup and Pro plans only.
+    type: endpoint-concept
+    context: timeseries
+
+  - term: historical
+    definition: >-
+      Exchange rate data for a specific past date. CurrencyBeacon stores up to
+      30 years of historical data, accessible via the /historical endpoint.
+    type: endpoint-concept
+    context: historical
+
+  - term: MCP
+    definition: >-
+      Model Context Protocol — an open standard that allows LLM clients (such
+      as Claude) to invoke tools and services. CurrencyBeacon provides an MCP
+      server so AI agents can query exchange rates without writing REST code
+      directly. MCP calls share the same request quota as REST API calls.
+    type: concept
+    context: integrations
+
+  - term: precision
+    definition: >-
+      The number of decimal places used to represent amounts in a given
+      currency. For example, USD has precision 2 (cents), JPY has precision 0
+      (no subunit), and BTC has precision 8 (satoshis).
+    type: field
+    context: currencies
+
+  - term: subunit
+    definition: >-
+      The smallest unit of a currency. For USD, the subunit is the cent
+      (1/100 of a dollar). For BTC, the subunit is the satoshi
+      (1/100,000,000 of a bitcoin).
+    type: field
+    context: currencies
+
+  - term: rate limit
+    definition: >-
+      The maximum number of API requests allowed within a billing period.
+      CurrencyBeacon enforces per-plan request caps (e.g., 5,000/month on
+      the free Developer Sandbox plan). HTTP 429 is returned when exceeded.
+    type: concept
+    context: authentication, errors
