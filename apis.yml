@@ -5,7 +5,7 @@ description: >-
   fiat currencies and cryptocurrencies, with 30 years of historical data, server-side
   conversion, timeseries analysis, and MCP server support for LLM integrations.
   Sourced from central banks and trusted financial institutions with 99.99% uptime.
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/currencybeacon/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -25,7 +25,7 @@ apis:
       REST API for real-time and historical currency exchange rates covering 170+
       fiat currencies and cryptocurrencies, with endpoints for latest rates, historical
       data, conversion, timeseries, and supported currencies list.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://currencybeacon.com
     baseURL: https://api.currencybeacon.com/v1
     tags:
