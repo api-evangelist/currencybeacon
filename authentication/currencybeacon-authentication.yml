@@ -1,0 +1,23 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/currencybeacon-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - query
+schemes:
+- name: ApiKeyQuery
+  type: apiKey
+  in: query
+  parameter: api_key
+  description: API key passed as a query parameter.
+  sources:
+  - openapi/currencybeacon-openapi.yml
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  description: API key passed as a Bearer token in the Authorization header.
+  sources:
+  - openapi/currencybeacon-openapi.yml
