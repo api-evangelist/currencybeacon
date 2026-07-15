@@ -42,6 +42,8 @@ apis:
       - FN: CurrencyBeacon Support
         email: info@currencybeacon.com
 common:
+  - type: AgenticAccess
+    url: agentic-access/currencybeacon-agentic-access.yml
   - type: DomainSecurity
     url: security/currencybeacon-domain-security.yml
   - type: Authentication
