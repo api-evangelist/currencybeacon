@@ -1,0 +1,215 @@
+openapi: 3.1.0
+info:
+  title: CurrencyBeacon conversion API
+  description: REST API for real-time and historical currency exchange rates covering 170+ fiat currencies and cryptocurrencies. Sourced from central banks and trusted financial institutions with 30 years of historical data, server-side conversion, timeseries analysis, and 99.99% uptime.
+  version: '1'
+  termsOfService: https://currencybeacon.com/terms
+  contact:
+    name: CurrencyBeacon Support
+    email: info@currencybeacon.com
+    url: https://currencybeacon.com
+  license:
+    name: Proprietary
+    url: https://currencybeacon.com/terms
+servers:
+- url: https://api.currencybeacon.com/v1
+  description: Production API
+security:
+- ApiKeyQuery: []
+- BearerAuth: []
+tags:
+- name: conversion
+  description: Currency conversion operations
+paths:
+  /convert:
+    get:
+      operationId: convertCurrency
+      summary: Convert currency amount
+      description: Converts an amount from one currency to another using mid-market exchange rates. Supports both real-time and historical date-based conversions.
+      tags:
+      - conversion
+      security:
+      - ApiKeyQuery: []
+      - BearerAuth: []
+      parameters:
+      - name: from
+        in: query
+        required: true
+        description: Three-letter ISO 4217 code of the source currency.
+        schema:
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: USD
+      - name: to
+        in: query
+        required: true
+        description: Three-letter ISO 4217 code of the target currency.
+        schema:
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: EUR
+      - name: amount
+        in: query
+        required: true
+        description: Numeric amount to convert.
+        schema:
+          type: number
+          format: double
+          minimum: 0
+          example: 100
+      - name: date
+        in: query
+        required: false
+        description: Historical date in YYYY-MM-DD format for historical conversion. If omitted, the latest rate is used.
+        schema:
+          type: string
+          format: date
+          example: '2020-01-01'
+      responses:
+        '200':
+          description: Successful response with conversion result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversionResponse'
+              example:
+                meta:
+                  code: 200
+                  disclaimer: Usage subject to terms
+                date: '2026-06-13'
+                from: USD
+                to: EUR
+                amount: 100
+                value: 91.85
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        5XX:
+          $ref: '#/components/responses/ServerError'
+components:
+  schemas:
+    ConversionResponse:
+      type: object
+      description: Response for currency conversion
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        date:
+          type: string
+          format: date
+          description: Date used for the conversion rate
+          example: '2026-06-13'
+        from:
+          type: string
+          description: Source currency code
+          example: USD
+        to:
+          type: string
+          description: Target currency code
+          example: EUR
+        amount:
+          type: number
+          format: double
+          description: Original amount in source currency
+          example: 100
+        value:
+          type: number
+          format: double
+          description: Converted amount in target currency
+          example: 91.85
+    Meta:
+      type: object
+      description: Response metadata
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+          example: 200
+        disclaimer:
+          type: string
+          description: Usage disclaimer text
+          example: Usage subject to terms
+    ErrorResponse:
+      type: object
+      description: Standard error response
+      properties:
+        meta:
+          type: object
+          properties:
+            code:
+              type: integer
+              description: HTTP error code
+            message:
+              type: string
+              description: Human-readable error message
+  responses:
+    Forbidden:
+      description: Current plan does not include access to this endpoint
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 403
+              message: Your plan does not include access to this endpoint
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 401
+              message: Invalid or missing API key
+    UnprocessableEntity:
+      description: Invalid or missing required parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 422
+              message: Missing required parameter
+    TooManyRequests:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 429
+              message: Rate limit exceeded
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 500
+              message: Internal server error
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: api_key
+      description: API key passed as a query parameter.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: API key passed as a Bearer token in the Authorization header.
+externalDocs:
+  description: CurrencyBeacon API Documentation
+  url: https://currencybeacon.com/api-documentation

@@ -1,0 +1,186 @@
+openapi: 3.1.0
+info:
+  title: CurrencyBeacon conversion currencies API
+  description: REST API for real-time and historical currency exchange rates covering 170+ fiat currencies and cryptocurrencies. Sourced from central banks and trusted financial institutions with 30 years of historical data, server-side conversion, timeseries analysis, and 99.99% uptime.
+  version: '1'
+  termsOfService: https://currencybeacon.com/terms
+  contact:
+    name: CurrencyBeacon Support
+    email: info@currencybeacon.com
+    url: https://currencybeacon.com
+  license:
+    name: Proprietary
+    url: https://currencybeacon.com/terms
+servers:
+- url: https://api.currencybeacon.com/v1
+  description: Production API
+security:
+- ApiKeyQuery: []
+- BearerAuth: []
+tags:
+- name: currencies
+  description: Supported currencies information
+paths:
+  /currencies:
+    get:
+      operationId: getSupportedCurrencies
+      summary: List supported currencies
+      description: Returns a list of all currencies supported by the CurrencyBeacon API, including fiat currencies and cryptocurrencies, with their names, symbols, and ISO codes.
+      tags:
+      - currencies
+      security:
+      - ApiKeyQuery: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: Successful response with list of supported currencies
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrenciesResponse'
+              example:
+                meta:
+                  code: 200
+                  disclaimer: Usage subject to terms
+                currencies:
+                - short_code: USD
+                  name: United States Dollar
+                  symbol: $
+                  precision: 2
+                  subunit: 100
+                  subunit_to_unit: 100
+                  isCrypto: false
+                - short_code: EUR
+                  name: Euro
+                  symbol: €
+                  precision: 2
+                  subunit: 100
+                  subunit_to_unit: 100
+                  isCrypto: false
+                - short_code: BTC
+                  name: Bitcoin
+                  symbol: ₿
+                  precision: 8
+                  subunit: 100000000
+                  subunit_to_unit: 100000000
+                  isCrypto: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        5XX:
+          $ref: '#/components/responses/ServerError'
+components:
+  schemas:
+    CurrencyInfo:
+      type: object
+      description: Information about a single supported currency
+      properties:
+        short_code:
+          type: string
+          description: ISO 4217 currency code or crypto ticker
+          example: USD
+        name:
+          type: string
+          description: Full name of the currency
+          example: United States Dollar
+        symbol:
+          type: string
+          description: Currency symbol
+          example: $
+        precision:
+          type: integer
+          description: Number of decimal places
+          example: 2
+        subunit:
+          type: integer
+          description: Number of subunits in one unit
+          example: 100
+        subunit_to_unit:
+          type: integer
+          description: Subunit to unit conversion factor
+          example: 100
+        isCrypto:
+          type: boolean
+          description: Whether the currency is a cryptocurrency
+          example: false
+    CurrenciesResponse:
+      type: object
+      description: Response for supported currencies list
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        currencies:
+          type: array
+          description: List of supported currencies
+          items:
+            $ref: '#/components/schemas/CurrencyInfo'
+    Meta:
+      type: object
+      description: Response metadata
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+          example: 200
+        disclaimer:
+          type: string
+          description: Usage disclaimer text
+          example: Usage subject to terms
+    ErrorResponse:
+      type: object
+      description: Standard error response
+      properties:
+        meta:
+          type: object
+          properties:
+            code:
+              type: integer
+              description: HTTP error code
+            message:
+              type: string
+              description: Human-readable error message
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 401
+              message: Invalid or missing API key
+    TooManyRequests:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 429
+              message: Rate limit exceeded
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 500
+              message: Internal server error
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: api_key
+      description: API key passed as a query parameter.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: API key passed as a Bearer token in the Authorization header.
+externalDocs:
+  description: CurrencyBeacon API Documentation
+  url: https://currencybeacon.com/api-documentation
