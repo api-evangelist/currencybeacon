@@ -5,7 +5,20 @@ description: >-
   fiat currencies and cryptocurrencies, with 30 years of historical data, server-side
   conversion, timeseries analysis, and MCP server support for LLM integrations.
   Sourced from central banks and trusted financial institutions with 99.99% uptime.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/currencybeacon.png
 url: https://raw.githubusercontent.com/api-evangelist/currencybeacon/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -19,28 +32,42 @@ tags:
   - Historical Rates
   - Currency Conversion
 apis:
-  - aid: currencybeacon:currencybeacon-api
-    name: CurrencyBeacon API
-    description: >-
-      REST API for real-time and historical currency exchange rates covering 170+
-      fiat currencies and cryptocurrencies, with endpoints for latest rates, historical
-      data, conversion, timeseries, and supported currencies list.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://currencybeacon.com
-    baseURL: https://api.currencybeacon.com/v1
-    tags:
-      - Currency
-      - Exchange Rates
-      - Forex
-      - Cryptocurrency
-    properties:
-      - type: Documentation
-        url: https://currencybeacon.com/api-documentation
-      - type: OpenAPI
-        url: https://raw.githubusercontent.com/api-evangelist/currencybeacon/refs/heads/main/openapi/currencybeacon-openapi.yml
-    contact:
-      - FN: CurrencyBeacon Support
-        email: info@currencybeacon.com
+- aid: currencybeacon:currencybeacon-conversion-api
+  name: CurrencyBeacon conversion API
+  description: Currency conversion operations
+  humanURL: https://currencybeacon.com
+  baseURL: https://api.currencybeacon.com/v1
+  tags:
+  - conversion
+  properties:
+  - type: OpenAPI
+    url: openapi/currencybeacon-conversion-api-openapi.yml
+  - type: Documentation
+    url: https://currencybeacon.com/api-documentation
+- aid: currencybeacon:currencybeacon-currencies-api
+  name: CurrencyBeacon currencies API
+  description: Supported currencies information
+  humanURL: https://currencybeacon.com
+  baseURL: https://api.currencybeacon.com/v1
+  tags:
+  - currencies
+  properties:
+  - type: OpenAPI
+    url: openapi/currencybeacon-currencies-api-openapi.yml
+  - type: Documentation
+    url: https://currencybeacon.com/api-documentation
+- aid: currencybeacon:currencybeacon-rates-api
+  name: CurrencyBeacon rates API
+  description: Currency exchange rate operations
+  humanURL: https://currencybeacon.com
+  baseURL: https://api.currencybeacon.com/v1
+  tags:
+  - rates
+  properties:
+  - type: OpenAPI
+    url: openapi/currencybeacon-rates-api-openapi.yml
+  - type: Documentation
+    url: https://currencybeacon.com/api-documentation
 common:
   - type: AgenticAccess
     url: agentic-access/currencybeacon-agentic-access.yml
