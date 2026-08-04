@@ -1,0 +1,616 @@
+openapi: 3.1.0
+info:
+  title: CurrencyBeacon API
+  description: >-
+    REST API for real-time and historical currency exchange rates covering 170+
+    fiat currencies and cryptocurrencies. Sourced from central banks and trusted
+    financial institutions with 30 years of historical data, server-side
+    conversion, timeseries analysis, and 99.99% uptime.
+  version: '1'
+  termsOfService: https://currencybeacon.com/terms
+  contact:
+    name: CurrencyBeacon Support
+    email: info@currencybeacon.com
+    url: https://currencybeacon.com
+  license:
+    name: Proprietary
+    url: https://currencybeacon.com/terms
+externalDocs:
+  description: CurrencyBeacon API Documentation
+  url: https://currencybeacon.com/api-documentation
+servers:
+  - url: https://api.currencybeacon.com/v1
+    description: Production API
+security:
+  - ApiKeyQuery: []
+  - BearerAuth: []
+tags:
+  - name: rates
+    description: Currency exchange rate operations
+  - name: conversion
+    description: Currency conversion operations
+  - name: currencies
+    description: Supported currencies information
+paths:
+  /latest:
+    get:
+      operationId: getLatestRates
+      summary: Get latest exchange rates
+      description: >-
+        Returns real-time mid-market exchange rates for the specified base
+        currency. Rates are sourced from central banks and financial
+        institutions. Update frequency depends on plan tier.
+      tags:
+        - rates
+      security:
+        - ApiKeyQuery: []
+        - BearerAuth: []
+      parameters:
+        - name: base
+          in: query
+          required: true
+          description: >-
+            Three-letter ISO 4217 currency code for the base currency.
+            Defaults to USD if not specified.
+          schema:
+            type: string
+            default: USD
+            minLength: 3
+            maxLength: 3
+            example: USD
+        - name: symbols
+          in: query
+          required: false
+          description: >-
+            Comma-separated list of currency codes to return rates for.
+            If omitted, all supported currencies are returned.
+          schema:
+            type: string
+            example: EUR,GBP,JPY
+      responses:
+        '200':
+          description: Successful response with latest exchange rates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LatestRatesResponse'
+              example:
+                meta:
+                  code: 200
+                  disclaimer: Usage subject to terms
+                date: '2026-06-13'
+                base: USD
+                rates:
+                  EUR: 0.9185
+                  GBP: 0.7862
+                  JPY: 157.42
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+  /historical:
+    get:
+      operationId: getHistoricalRates
+      summary: Get historical exchange rates
+      description: >-
+        Returns exchange rates for a specific historical date. CurrencyBeacon
+        provides up to 30 years of historical data.
+      tags:
+        - rates
+      security:
+        - ApiKeyQuery: []
+        - BearerAuth: []
+      parameters:
+        - name: date
+          in: query
+          required: true
+          description: The date for which to retrieve historical rates in YYYY-MM-DD format.
+          schema:
+            type: string
+            format: date
+            example: '2020-01-01'
+        - name: base
+          in: query
+          required: false
+          description: >-
+            Three-letter ISO 4217 currency code for the base currency.
+            Defaults to USD if not specified.
+          schema:
+            type: string
+            default: USD
+            minLength: 3
+            maxLength: 3
+            example: USD
+        - name: symbols
+          in: query
+          required: false
+          description: >-
+            Comma-separated list of currency codes to return rates for.
+            If omitted, all supported currencies are returned.
+          schema:
+            type: string
+            example: EUR,GBP,JPY
+      responses:
+        '200':
+          description: Successful response with historical exchange rates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoricalRatesResponse'
+              example:
+                meta:
+                  code: 200
+                  disclaimer: Usage subject to terms
+                date: '2020-01-01'
+                base: USD
+                rates:
+                  EUR: 0.8912
+                  GBP: 0.7565
+                  JPY: 108.63
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+  /convert:
+    get:
+      operationId: convertCurrency
+      summary: Convert currency amount
+      description: >-
+        Converts an amount from one currency to another using mid-market
+        exchange rates. Supports both real-time and historical date-based
+        conversions.
+      tags:
+        - conversion
+      security:
+        - ApiKeyQuery: []
+        - BearerAuth: []
+      parameters:
+        - name: from
+          in: query
+          required: true
+          description: Three-letter ISO 4217 code of the source currency.
+          schema:
+            type: string
+            minLength: 3
+            maxLength: 3
+            example: USD
+        - name: to
+          in: query
+          required: true
+          description: Three-letter ISO 4217 code of the target currency.
+          schema:
+            type: string
+            minLength: 3
+            maxLength: 3
+            example: EUR
+        - name: amount
+          in: query
+          required: true
+          description: Numeric amount to convert.
+          schema:
+            type: number
+            format: double
+            minimum: 0
+            example: 100
+        - name: date
+          in: query
+          required: false
+          description: >-
+            Historical date in YYYY-MM-DD format for historical conversion.
+            If omitted, the latest rate is used.
+          schema:
+            type: string
+            format: date
+            example: '2020-01-01'
+      responses:
+        '200':
+          description: Successful response with conversion result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversionResponse'
+              example:
+                meta:
+                  code: 200
+                  disclaimer: Usage subject to terms
+                date: '2026-06-13'
+                from: USD
+                to: EUR
+                amount: 100
+                value: 91.85
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+  /timeseries:
+    get:
+      operationId: getTimeseries
+      summary: Get timeseries exchange rates
+      description: >-
+        Returns exchange rate time-series data between two dates for a given
+        base currency. Available on Startup and Pro plans only.
+      tags:
+        - rates
+      security:
+        - ApiKeyQuery: []
+        - BearerAuth: []
+      parameters:
+        - name: start_date
+          in: query
+          required: true
+          description: Start date of the time series in YYYY-MM-DD format.
+          schema:
+            type: string
+            format: date
+            example: '2026-01-01'
+        - name: end_date
+          in: query
+          required: true
+          description: End date of the time series in YYYY-MM-DD format.
+          schema:
+            type: string
+            format: date
+            example: '2026-06-01'
+        - name: base
+          in: query
+          required: false
+          description: >-
+            Three-letter ISO 4217 currency code for the base currency.
+            Defaults to USD if not specified.
+          schema:
+            type: string
+            default: USD
+            minLength: 3
+            maxLength: 3
+            example: USD
+        - name: symbols
+          in: query
+          required: false
+          description: >-
+            Comma-separated list of currency codes to include in the series.
+            If omitted, all supported currencies are returned.
+          schema:
+            type: string
+            example: EUR,GBP
+      responses:
+        '200':
+          description: Successful response with timeseries data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeseriesResponse'
+              example:
+                meta:
+                  code: 200
+                  disclaimer: Usage subject to terms
+                start_date: '2026-01-01'
+                end_date: '2026-01-03'
+                base: USD
+                rates:
+                  '2026-01-01':
+                    EUR: 0.9195
+                    GBP: 0.7870
+                  '2026-01-02':
+                    EUR: 0.9201
+                    GBP: 0.7875
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+  /currencies:
+    get:
+      operationId: getSupportedCurrencies
+      summary: List supported currencies
+      description: >-
+        Returns a list of all currencies supported by the CurrencyBeacon API,
+        including fiat currencies and cryptocurrencies, with their names,
+        symbols, and ISO codes.
+      tags:
+        - currencies
+      security:
+        - ApiKeyQuery: []
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Successful response with list of supported currencies
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrenciesResponse'
+              example:
+                meta:
+                  code: 200
+                  disclaimer: Usage subject to terms
+                currencies:
+                  - short_code: USD
+                    name: United States Dollar
+                    symbol: $
+                    precision: 2
+                    subunit: 100
+                    subunit_to_unit: 100
+                    isCrypto: false
+                  - short_code: EUR
+                    name: Euro
+                    symbol: "€"
+                    precision: 2
+                    subunit: 100
+                    subunit_to_unit: 100
+                    isCrypto: false
+                  - short_code: BTC
+                    name: Bitcoin
+                    symbol: "₿"
+                    precision: 8
+                    subunit: 100000000
+                    subunit_to_unit: 100000000
+                    isCrypto: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '5XX':
+          $ref: '#/components/responses/ServerError'
+components:
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: api_key
+      description: API key passed as a query parameter.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: API key passed as a Bearer token in the Authorization header.
+  schemas:
+    Meta:
+      type: object
+      description: Response metadata
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+          example: 200
+        disclaimer:
+          type: string
+          description: Usage disclaimer text
+          example: Usage subject to terms
+    LatestRatesResponse:
+      type: object
+      description: Response for latest exchange rates
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        date:
+          type: string
+          format: date
+          description: Date of the exchange rates
+          example: '2026-06-13'
+        base:
+          type: string
+          description: Base currency code
+          example: USD
+        rates:
+          type: object
+          description: Map of currency codes to exchange rates
+          additionalProperties:
+            type: number
+            format: double
+          example:
+            EUR: 0.9185
+            GBP: 0.7862
+    HistoricalRatesResponse:
+      type: object
+      description: Response for historical exchange rates
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        date:
+          type: string
+          format: date
+          description: The historical date of the rates
+          example: '2020-01-01'
+        base:
+          type: string
+          description: Base currency code
+          example: USD
+        rates:
+          type: object
+          description: Map of currency codes to exchange rates on the given date
+          additionalProperties:
+            type: number
+            format: double
+    ConversionResponse:
+      type: object
+      description: Response for currency conversion
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        date:
+          type: string
+          format: date
+          description: Date used for the conversion rate
+          example: '2026-06-13'
+        from:
+          type: string
+          description: Source currency code
+          example: USD
+        to:
+          type: string
+          description: Target currency code
+          example: EUR
+        amount:
+          type: number
+          format: double
+          description: Original amount in source currency
+          example: 100
+        value:
+          type: number
+          format: double
+          description: Converted amount in target currency
+          example: 91.85
+    TimeseriesResponse:
+      type: object
+      description: Response for timeseries exchange rates
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        start_date:
+          type: string
+          format: date
+          description: Start date of the time series
+          example: '2026-01-01'
+        end_date:
+          type: string
+          format: date
+          description: End date of the time series
+          example: '2026-06-01'
+        base:
+          type: string
+          description: Base currency code
+          example: USD
+        rates:
+          type: object
+          description: Map of dates to rate objects
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: number
+              format: double
+    CurrencyInfo:
+      type: object
+      description: Information about a single supported currency
+      properties:
+        short_code:
+          type: string
+          description: ISO 4217 currency code or crypto ticker
+          example: USD
+        name:
+          type: string
+          description: Full name of the currency
+          example: United States Dollar
+        symbol:
+          type: string
+          description: Currency symbol
+          example: $
+        precision:
+          type: integer
+          description: Number of decimal places
+          example: 2
+        subunit:
+          type: integer
+          description: Number of subunits in one unit
+          example: 100
+        subunit_to_unit:
+          type: integer
+          description: Subunit to unit conversion factor
+          example: 100
+        isCrypto:
+          type: boolean
+          description: Whether the currency is a cryptocurrency
+          example: false
+    CurrenciesResponse:
+      type: object
+      description: Response for supported currencies list
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        currencies:
+          type: array
+          description: List of supported currencies
+          items:
+            $ref: '#/components/schemas/CurrencyInfo'
+    ErrorResponse:
+      type: object
+      description: Standard error response
+      properties:
+        meta:
+          type: object
+          properties:
+            code:
+              type: integer
+              description: HTTP error code
+            message:
+              type: string
+              description: Human-readable error message
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 401
+              message: Invalid or missing API key
+    Forbidden:
+      description: Current plan does not include access to this endpoint
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 403
+              message: Your plan does not include access to this endpoint
+    NotFound:
+      description: Endpoint or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 404
+              message: Resource not found
+    UnprocessableEntity:
+      description: Invalid or missing required parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 422
+              message: Missing required parameter
+    TooManyRequests:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 429
+              message: Rate limit exceeded
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 500
+              message: Internal server error
