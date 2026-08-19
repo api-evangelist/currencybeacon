@@ -1,0 +1,137 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CurrencyBeacon conversion rates API",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "rates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get latest exchange rates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.currencybeacon.com/v1/latest",
+            "params": [
+              {
+                "name": "base",
+                "value": "",
+                "type": "query",
+                "description": "Three-letter ISO 4217 currency code for the base currency. Defaults to USD if not specified."
+              },
+              {
+                "name": "symbols",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of currency codes to return rates for. If omitted, all supported currencies are returned."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "api_key",
+              "value": "{{api_key}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Returns real-time mid-market exchange rates for the specified base currency. Rates are sourced from central banks and financial institutions. Update frequency depends on plan tier."
+        },
+        {
+          "info": {
+            "name": "Get historical exchange rates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.currencybeacon.com/v1/historical",
+            "params": [
+              {
+                "name": "date",
+                "value": "",
+                "type": "query",
+                "description": "The date for which to retrieve historical rates in YYYY-MM-DD format."
+              },
+              {
+                "name": "base",
+                "value": "",
+                "type": "query",
+                "description": "Three-letter ISO 4217 currency code for the base currency. Defaults to USD if not specified."
+              },
+              {
+                "name": "symbols",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of currency codes to return rates for. If omitted, all supported currencies are returned."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "api_key",
+              "value": "{{api_key}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Returns exchange rates for a specific historical date. CurrencyBeacon provides up to 30 years of historical data."
+        },
+        {
+          "info": {
+            "name": "Get timeseries exchange rates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.currencybeacon.com/v1/timeseries",
+            "params": [
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date of the time series in YYYY-MM-DD format."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date of the time series in YYYY-MM-DD format."
+              },
+              {
+                "name": "base",
+                "value": "",
+                "type": "query",
+                "description": "Three-letter ISO 4217 currency code for the base currency. Defaults to USD if not specified."
+              },
+              {
+                "name": "symbols",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of currency codes to include in the series. If omitted, all supported currencies are returned."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "api_key",
+              "value": "{{api_key}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Returns exchange rate time-series data between two dates for a given base currency. Available on Startup and Pro plans only."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

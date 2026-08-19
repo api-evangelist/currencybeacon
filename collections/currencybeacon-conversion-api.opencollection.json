@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CurrencyBeacon conversion API",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "conversion",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Convert currency amount",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.currencybeacon.com/v1/convert",
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Three-letter ISO 4217 code of the source currency."
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Three-letter ISO 4217 code of the target currency."
+              },
+              {
+                "name": "amount",
+                "value": "",
+                "type": "query",
+                "description": "Numeric amount to convert."
+              },
+              {
+                "name": "date",
+                "value": "",
+                "type": "query",
+                "description": "Historical date in YYYY-MM-DD format for historical conversion. If omitted, the latest rate is used."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "api_key",
+              "value": "{{api_key}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Converts an amount from one currency to another using mid-market exchange rates. Supports both real-time and historical date-based conversions."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

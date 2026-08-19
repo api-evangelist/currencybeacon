@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CurrencyBeacon conversion currencies API",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "currencies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List supported currencies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.currencybeacon.com/v1/currencies",
+            "auth": {
+              "type": "apikey",
+              "key": "api_key",
+              "value": "{{api_key}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Returns a list of all currencies supported by the CurrencyBeacon API, including fiat currencies and cryptocurrencies, with their names, symbols, and ISO codes."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
