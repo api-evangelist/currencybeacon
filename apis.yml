@@ -38,6 +38,8 @@ apis:
   humanURL: https://currencybeacon.com
   baseURL: https://api.currencybeacon.com/v1
   tags:
+  - Conversion
+  tags_raw:
   - conversion
   properties:
   - type: OpenAPI
@@ -50,6 +52,8 @@ apis:
   humanURL: https://currencybeacon.com
   baseURL: https://api.currencybeacon.com/v1
   tags:
+  - Currency
+  tags_raw:
   - currencies
   properties:
   - type: OpenAPI
@@ -62,6 +66,8 @@ apis:
   humanURL: https://currencybeacon.com
   baseURL: https://api.currencybeacon.com/v1
   tags:
+  - Rates
+  tags_raw:
   - rates
   properties:
   - type: OpenAPI
