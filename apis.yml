@@ -5,6 +5,18 @@ description: >-
   fiat currencies and cryptocurrencies, with 30 years of historical data, server-side
   conversion, timeseries analysis, and MCP server support for LLM integrations.
   Sourced from central banks and trusted financial institutions with 99.99% uptime.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
