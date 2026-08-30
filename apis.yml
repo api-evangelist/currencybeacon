@@ -50,7 +50,7 @@ apis:
   humanURL: https://currencybeacon.com
   baseURL: https://api.currencybeacon.com/v1
   tags:
-  - Conversion
+  - conversion
   tags_raw:
   - conversion
   properties:
@@ -78,7 +78,7 @@ apis:
   humanURL: https://currencybeacon.com
   baseURL: https://api.currencybeacon.com/v1
   tags:
-  - Rates
+  - rates
   tags_raw:
   - rates
   properties:
