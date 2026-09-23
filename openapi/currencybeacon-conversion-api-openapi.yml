@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: CurrencyBeacon conversion API
+  title: CurrencyBeacon Conversion API
   description: REST API for real-time and historical currency exchange rates covering 170+ fiat currencies and cryptocurrencies. Sourced from central banks and trusted financial institutions with 30 years of historical data, server-side conversion, timeseries analysis, and 99.99% uptime.
   version: '1'
   termsOfService: https://currencybeacon.com/terms
@@ -18,7 +18,7 @@ security:
 - ApiKeyQuery: []
 - BearerAuth: []
 tags:
-- name: conversion
+- name: Conversion
   description: Currency conversion operations
 paths:
   /convert:
@@ -27,7 +27,7 @@ paths:
       summary: Convert currency amount
       description: Converts an amount from one currency to another using mid-market exchange rates. Supports both real-time and historical date-based conversions.
       tags:
-      - conversion
+      - Conversion
       security:
       - ApiKeyQuery: []
       - BearerAuth: []
@@ -95,6 +95,19 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      description: Standard error response
+      properties:
+        meta:
+          type: object
+          properties:
+            code:
+              type: integer
+              description: HTTP error code
+            message:
+              type: string
+              description: Human-readable error message
     ConversionResponse:
       type: object
       description: Response for currency conversion
@@ -136,19 +149,6 @@ components:
           type: string
           description: Usage disclaimer text
           example: Usage subject to terms
-    ErrorResponse:
-      type: object
-      description: Standard error response
-      properties:
-        meta:
-          type: object
-          properties:
-            code:
-              type: integer
-              description: HTTP error code
-            message:
-              type: string
-              description: Human-readable error message
   responses:
     Forbidden:
       description: Current plan does not include access to this endpoint
@@ -160,6 +160,16 @@ components:
             meta:
               code: 403
               message: Your plan does not include access to this endpoint
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 500
+              message: Internal server error
     Unauthorized:
       description: Missing or invalid API key
       content:
@@ -190,16 +200,6 @@ components:
             meta:
               code: 429
               message: Rate limit exceeded
-    ServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 500
-              message: Internal server error
   securitySchemes:
     ApiKeyQuery:
       type: apiKey

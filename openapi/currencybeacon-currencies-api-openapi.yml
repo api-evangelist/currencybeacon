@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: CurrencyBeacon conversion currencies API
+  title: CurrencyBeacon Currencies API
   description: REST API for real-time and historical currency exchange rates covering 170+ fiat currencies and cryptocurrencies. Sourced from central banks and trusted financial institutions with 30 years of historical data, server-side conversion, timeseries analysis, and 99.99% uptime.
   version: '1'
   termsOfService: https://currencybeacon.com/terms
@@ -18,7 +18,7 @@ security:
 - ApiKeyQuery: []
 - BearerAuth: []
 tags:
-- name: currencies
+- name: Currencies
   description: Supported currencies information
 paths:
   /currencies:
@@ -27,7 +27,7 @@ paths:
       summary: List supported currencies
       description: Returns a list of all currencies supported by the CurrencyBeacon API, including fiat currencies and cryptocurrencies, with their names, symbols, and ISO codes.
       tags:
-      - currencies
+      - Currencies
       security:
       - ApiKeyQuery: []
       - BearerAuth: []
@@ -72,6 +72,42 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      description: Standard error response
+      properties:
+        meta:
+          type: object
+          properties:
+            code:
+              type: integer
+              description: HTTP error code
+            message:
+              type: string
+              description: Human-readable error message
+    CurrenciesResponse:
+      type: object
+      description: Response for supported currencies list
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        currencies:
+          type: array
+          description: List of supported currencies
+          items:
+            $ref: '#/components/schemas/CurrencyInfo'
+    Meta:
+      type: object
+      description: Response metadata
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+          example: 200
+        disclaimer:
+          type: string
+          description: Usage disclaimer text
+          example: Usage subject to terms
     CurrencyInfo:
       type: object
       description: Information about a single supported currency
@@ -104,43 +140,17 @@ components:
           type: boolean
           description: Whether the currency is a cryptocurrency
           example: false
-    CurrenciesResponse:
-      type: object
-      description: Response for supported currencies list
-      properties:
-        meta:
-          $ref: '#/components/schemas/Meta'
-        currencies:
-          type: array
-          description: List of supported currencies
-          items:
-            $ref: '#/components/schemas/CurrencyInfo'
-    Meta:
-      type: object
-      description: Response metadata
-      properties:
-        code:
-          type: integer
-          description: HTTP status code
-          example: 200
-        disclaimer:
-          type: string
-          description: Usage disclaimer text
-          example: Usage subject to terms
-    ErrorResponse:
-      type: object
-      description: Standard error response
-      properties:
-        meta:
-          type: object
-          properties:
-            code:
-              type: integer
-              description: HTTP error code
-            message:
-              type: string
-              description: Human-readable error message
   responses:
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 500
+              message: Internal server error
     Unauthorized:
       description: Missing or invalid API key
       content:
@@ -161,16 +171,6 @@ components:
             meta:
               code: 429
               message: Rate limit exceeded
-    ServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 500
-              message: Internal server error
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
