@@ -46,7 +46,7 @@ tags:
   - Currency Conversion
 apis:
 - aid: currencybeacon:currencybeacon-conversion-api
-  name: CurrencyBeacon conversion API
+  name: CurrencyBeacon Conversion API
   description: Currency conversion operations
   humanURL: https://currencybeacon.com
   baseURL: https://api.currencybeacon.com/v1
@@ -60,7 +60,7 @@ apis:
   - type: Documentation
     url: https://currencybeacon.com/api-documentation
 - aid: currencybeacon:currencybeacon-currencies-api
-  name: CurrencyBeacon currencies API
+  name: CurrencyBeacon Currencies API
   description: Supported currencies information
   humanURL: https://currencybeacon.com
   baseURL: https://api.currencybeacon.com/v1
@@ -74,7 +74,7 @@ apis:
   - type: Documentation
     url: https://currencybeacon.com/api-documentation
 - aid: currencybeacon:currencybeacon-rates-api
-  name: CurrencyBeacon rates API
+  name: CurrencyBeacon Rates API
   description: Currency exchange rate operations
   humanURL: https://currencybeacon.com
   baseURL: https://api.currencybeacon.com/v1

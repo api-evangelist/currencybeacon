@@ -214,19 +214,51 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   schemas:
-    ErrorResponse:
+    HistoricalRatesResponse:
       type: object
-      description: Standard error response
+      description: Response for historical exchange rates
       properties:
         meta:
+          $ref: '#/components/schemas/Meta'
+        date:
+          type: string
+          format: date
+          description: The historical date of the rates
+          example: '2020-01-01'
+        base:
+          type: string
+          description: Base currency code
+          example: USD
+        rates:
           type: object
-          properties:
-            code:
-              type: integer
-              description: HTTP error code
-            message:
-              type: string
-              description: Human-readable error message
+          description: Map of currency codes to exchange rates on the given date
+          additionalProperties:
+            type: number
+            format: double
+    LatestRatesResponse:
+      type: object
+      description: Response for latest exchange rates
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        date:
+          type: string
+          format: date
+          description: Date of the exchange rates
+          example: '2026-06-13'
+        base:
+          type: string
+          description: Base currency code
+          example: USD
+        rates:
+          type: object
+          description: Map of currency codes to exchange rates
+          additionalProperties:
+            type: number
+            format: double
+          example:
+            EUR: 0.9185
+            GBP: 0.7862
     TimeseriesResponse:
       type: object
       description: Response for timeseries exchange rates
@@ -255,27 +287,19 @@ components:
             additionalProperties:
               type: number
               format: double
-    HistoricalRatesResponse:
+    ErrorResponse:
       type: object
-      description: Response for historical exchange rates
+      description: Standard error response
       properties:
         meta:
-          $ref: '#/components/schemas/Meta'
-        date:
-          type: string
-          format: date
-          description: The historical date of the rates
-          example: '2020-01-01'
-        base:
-          type: string
-          description: Base currency code
-          example: USD
-        rates:
           type: object
-          description: Map of currency codes to exchange rates on the given date
-          additionalProperties:
-            type: number
-            format: double
+          properties:
+            code:
+              type: integer
+              description: HTTP error code
+            message:
+              type: string
+              description: Human-readable error message
     Meta:
       type: object
       description: Response metadata
@@ -288,61 +312,7 @@ components:
           type: string
           description: Usage disclaimer text
           example: Usage subject to terms
-    LatestRatesResponse:
-      type: object
-      description: Response for latest exchange rates
-      properties:
-        meta:
-          $ref: '#/components/schemas/Meta'
-        date:
-          type: string
-          format: date
-          description: Date of the exchange rates
-          example: '2026-06-13'
-        base:
-          type: string
-          description: Base currency code
-          example: USD
-        rates:
-          type: object
-          description: Map of currency codes to exchange rates
-          additionalProperties:
-            type: number
-            format: double
-          example:
-            EUR: 0.9185
-            GBP: 0.7862
   responses:
-    Forbidden:
-      description: Current plan does not include access to this endpoint
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 403
-              message: Your plan does not include access to this endpoint
-    UnprocessableEntity:
-      description: Invalid or missing required parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 422
-              message: Missing required parameter
-    ServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 500
-              message: Internal server error
     NotFound:
       description: Endpoint or resource not found
       content:
@@ -363,6 +333,26 @@ components:
             meta:
               code: 401
               message: Invalid or missing API key
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 500
+              message: Internal server error
+    Forbidden:
+      description: Current plan does not include access to this endpoint
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 403
+              message: Your plan does not include access to this endpoint
     TooManyRequests:
       description: Rate limit exceeded
       content:
@@ -373,6 +363,16 @@ components:
             meta:
               code: 429
               message: Rate limit exceeded
+    UnprocessableEntity:
+      description: Invalid or missing required parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 422
+              message: Missing required parameter
   securitySchemes:
     ApiKeyQuery:
       type: apiKey

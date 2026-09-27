@@ -72,19 +72,6 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      description: Standard error response
-      properties:
-        meta:
-          type: object
-          properties:
-            code:
-              type: integer
-              description: HTTP error code
-            message:
-              type: string
-              description: Human-readable error message
     CurrenciesResponse:
       type: object
       description: Response for supported currencies list
@@ -96,18 +83,6 @@ components:
           description: List of supported currencies
           items:
             $ref: '#/components/schemas/CurrencyInfo'
-    Meta:
-      type: object
-      description: Response metadata
-      properties:
-        code:
-          type: integer
-          description: HTTP status code
-          example: 200
-        disclaimer:
-          type: string
-          description: Usage disclaimer text
-          example: Usage subject to terms
     CurrencyInfo:
       type: object
       description: Information about a single supported currency
@@ -140,17 +115,32 @@ components:
           type: boolean
           description: Whether the currency is a cryptocurrency
           example: false
+    ErrorResponse:
+      type: object
+      description: Standard error response
+      properties:
+        meta:
+          type: object
+          properties:
+            code:
+              type: integer
+              description: HTTP error code
+            message:
+              type: string
+              description: Human-readable error message
+    Meta:
+      type: object
+      description: Response metadata
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+          example: 200
+        disclaimer:
+          type: string
+          description: Usage disclaimer text
+          example: Usage subject to terms
   responses:
-    ServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 500
-              message: Internal server error
     Unauthorized:
       description: Missing or invalid API key
       content:
@@ -161,6 +151,16 @@ components:
             meta:
               code: 401
               message: Invalid or missing API key
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 500
+              message: Internal server error
     TooManyRequests:
       description: Rate limit exceeded
       content:
