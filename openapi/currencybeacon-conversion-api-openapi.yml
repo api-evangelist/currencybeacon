@@ -95,6 +95,16 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   responses:
+    UnprocessableEntity:
+      description: Invalid or missing required parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 422
+              message: Missing required parameter
     Unauthorized:
       description: Missing or invalid API key
       content:
@@ -105,6 +115,16 @@ components:
             meta:
               code: 401
               message: Invalid or missing API key
+    TooManyRequests:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 429
+              message: Rate limit exceeded
     ServerError:
       description: Internal server error
       content:
@@ -125,27 +145,20 @@ components:
             meta:
               code: 403
               message: Your plan does not include access to this endpoint
-    TooManyRequests:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 429
-              message: Rate limit exceeded
-    UnprocessableEntity:
-      description: Invalid or missing required parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 422
-              message: Missing required parameter
   schemas:
+    ErrorResponse:
+      type: object
+      description: Standard error response
+      properties:
+        meta:
+          type: object
+          properties:
+            code:
+              type: integer
+              description: HTTP error code
+            message:
+              type: string
+              description: Human-readable error message
     ConversionResponse:
       type: object
       description: Response for currency conversion
@@ -175,19 +188,6 @@ components:
           format: double
           description: Converted amount in target currency
           example: 91.85
-    ErrorResponse:
-      type: object
-      description: Standard error response
-      properties:
-        meta:
-          type: object
-          properties:
-            code:
-              type: integer
-              description: HTTP error code
-            message:
-              type: string
-              description: Human-readable error message
     Meta:
       type: object
       description: Response metadata

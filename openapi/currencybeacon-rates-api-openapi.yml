@@ -214,27 +214,6 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   schemas:
-    HistoricalRatesResponse:
-      type: object
-      description: Response for historical exchange rates
-      properties:
-        meta:
-          $ref: '#/components/schemas/Meta'
-        date:
-          type: string
-          format: date
-          description: The historical date of the rates
-          example: '2020-01-01'
-        base:
-          type: string
-          description: Base currency code
-          example: USD
-        rates:
-          type: object
-          description: Map of currency codes to exchange rates on the given date
-          additionalProperties:
-            type: number
-            format: double
     LatestRatesResponse:
       type: object
       description: Response for latest exchange rates
@@ -259,6 +238,52 @@ components:
           example:
             EUR: 0.9185
             GBP: 0.7862
+    ErrorResponse:
+      type: object
+      description: Standard error response
+      properties:
+        meta:
+          type: object
+          properties:
+            code:
+              type: integer
+              description: HTTP error code
+            message:
+              type: string
+              description: Human-readable error message
+    HistoricalRatesResponse:
+      type: object
+      description: Response for historical exchange rates
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        date:
+          type: string
+          format: date
+          description: The historical date of the rates
+          example: '2020-01-01'
+        base:
+          type: string
+          description: Base currency code
+          example: USD
+        rates:
+          type: object
+          description: Map of currency codes to exchange rates on the given date
+          additionalProperties:
+            type: number
+            format: double
+    Meta:
+      type: object
+      description: Response metadata
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+          example: 200
+        disclaimer:
+          type: string
+          description: Usage disclaimer text
+          example: Usage subject to terms
     TimeseriesResponse:
       type: object
       description: Response for timeseries exchange rates
@@ -287,32 +312,17 @@ components:
             additionalProperties:
               type: number
               format: double
-    ErrorResponse:
-      type: object
-      description: Standard error response
-      properties:
-        meta:
-          type: object
-          properties:
-            code:
-              type: integer
-              description: HTTP error code
-            message:
-              type: string
-              description: Human-readable error message
-    Meta:
-      type: object
-      description: Response metadata
-      properties:
-        code:
-          type: integer
-          description: HTTP status code
-          example: 200
-        disclaimer:
-          type: string
-          description: Usage disclaimer text
-          example: Usage subject to terms
   responses:
+    UnprocessableEntity:
+      description: Invalid or missing required parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 422
+              message: Missing required parameter
     NotFound:
       description: Endpoint or resource not found
       content:
@@ -323,6 +333,16 @@ components:
             meta:
               code: 404
               message: Resource not found
+    TooManyRequests:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 429
+              message: Rate limit exceeded
     Unauthorized:
       description: Missing or invalid API key
       content:
@@ -353,26 +373,6 @@ components:
             meta:
               code: 403
               message: Your plan does not include access to this endpoint
-    TooManyRequests:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 429
-              message: Rate limit exceeded
-    UnprocessableEntity:
-      description: Invalid or missing required parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 422
-              message: Missing required parameter
   securitySchemes:
     ApiKeyQuery:
       type: apiKey

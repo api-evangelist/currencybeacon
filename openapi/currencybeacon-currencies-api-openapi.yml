@@ -72,17 +72,6 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   schemas:
-    CurrenciesResponse:
-      type: object
-      description: Response for supported currencies list
-      properties:
-        meta:
-          $ref: '#/components/schemas/Meta'
-        currencies:
-          type: array
-          description: List of supported currencies
-          items:
-            $ref: '#/components/schemas/CurrencyInfo'
     CurrencyInfo:
       type: object
       description: Information about a single supported currency
@@ -140,7 +129,28 @@ components:
           type: string
           description: Usage disclaimer text
           example: Usage subject to terms
+    CurrenciesResponse:
+      type: object
+      description: Response for supported currencies list
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        currencies:
+          type: array
+          description: List of supported currencies
+          items:
+            $ref: '#/components/schemas/CurrencyInfo'
   responses:
+    TooManyRequests:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 429
+              message: Rate limit exceeded
     Unauthorized:
       description: Missing or invalid API key
       content:
@@ -161,16 +171,6 @@ components:
             meta:
               code: 500
               message: Internal server error
-    TooManyRequests:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 429
-              message: Rate limit exceeded
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
