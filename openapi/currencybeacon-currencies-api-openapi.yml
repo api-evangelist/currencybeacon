@@ -104,19 +104,6 @@ components:
           type: boolean
           description: Whether the currency is a cryptocurrency
           example: false
-    ErrorResponse:
-      type: object
-      description: Standard error response
-      properties:
-        meta:
-          type: object
-          properties:
-            code:
-              type: integer
-              description: HTTP error code
-            message:
-              type: string
-              description: Human-readable error message
     Meta:
       type: object
       description: Response metadata
@@ -140,27 +127,20 @@ components:
           description: List of supported currencies
           items:
             $ref: '#/components/schemas/CurrencyInfo'
+    ErrorResponse:
+      type: object
+      description: Standard error response
+      properties:
+        meta:
+          type: object
+          properties:
+            code:
+              type: integer
+              description: HTTP error code
+            message:
+              type: string
+              description: Human-readable error message
   responses:
-    TooManyRequests:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 429
-              message: Rate limit exceeded
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 401
-              message: Invalid or missing API key
     ServerError:
       description: Internal server error
       content:
@@ -171,6 +151,26 @@ components:
             meta:
               code: 500
               message: Internal server error
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 401
+              message: Invalid or missing API key
+    TooManyRequests:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 429
+              message: Rate limit exceeded
   securitySchemes:
     ApiKeyQuery:
       type: apiKey

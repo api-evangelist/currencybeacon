@@ -213,31 +213,108 @@ paths:
         5XX:
           $ref: '#/components/responses/ServerError'
 components:
+  responses:
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 500
+              message: Internal server error
+    NotFound:
+      description: Endpoint or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 404
+              message: Resource not found
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 401
+              message: Invalid or missing API key
+    UnprocessableEntity:
+      description: Invalid or missing required parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 422
+              message: Missing required parameter
+    Forbidden:
+      description: Current plan does not include access to this endpoint
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 403
+              message: Your plan does not include access to this endpoint
+    TooManyRequests:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 429
+              message: Rate limit exceeded
   schemas:
-    LatestRatesResponse:
+    TimeseriesResponse:
       type: object
-      description: Response for latest exchange rates
+      description: Response for timeseries exchange rates
       properties:
         meta:
           $ref: '#/components/schemas/Meta'
-        date:
+        start_date:
           type: string
           format: date
-          description: Date of the exchange rates
-          example: '2026-06-13'
+          description: Start date of the time series
+          example: '2026-01-01'
+        end_date:
+          type: string
+          format: date
+          description: End date of the time series
+          example: '2026-06-01'
         base:
           type: string
           description: Base currency code
           example: USD
         rates:
           type: object
-          description: Map of currency codes to exchange rates
+          description: Map of dates to rate objects
           additionalProperties:
-            type: number
-            format: double
-          example:
-            EUR: 0.9185
-            GBP: 0.7862
+            type: object
+            additionalProperties:
+              type: number
+              format: double
+    Meta:
+      type: object
+      description: Response metadata
+      properties:
+        code:
+          type: integer
+          description: HTTP status code
+          example: 200
+        disclaimer:
+          type: string
+          description: Usage disclaimer text
+          example: Usage subject to terms
     ErrorResponse:
       type: object
       description: Standard error response
@@ -272,107 +349,30 @@ components:
           additionalProperties:
             type: number
             format: double
-    Meta:
+    LatestRatesResponse:
       type: object
-      description: Response metadata
-      properties:
-        code:
-          type: integer
-          description: HTTP status code
-          example: 200
-        disclaimer:
-          type: string
-          description: Usage disclaimer text
-          example: Usage subject to terms
-    TimeseriesResponse:
-      type: object
-      description: Response for timeseries exchange rates
+      description: Response for latest exchange rates
       properties:
         meta:
           $ref: '#/components/schemas/Meta'
-        start_date:
+        date:
           type: string
           format: date
-          description: Start date of the time series
-          example: '2026-01-01'
-        end_date:
-          type: string
-          format: date
-          description: End date of the time series
-          example: '2026-06-01'
+          description: Date of the exchange rates
+          example: '2026-06-13'
         base:
           type: string
           description: Base currency code
           example: USD
         rates:
           type: object
-          description: Map of dates to rate objects
+          description: Map of currency codes to exchange rates
           additionalProperties:
-            type: object
-            additionalProperties:
-              type: number
-              format: double
-  responses:
-    UnprocessableEntity:
-      description: Invalid or missing required parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+            type: number
+            format: double
           example:
-            meta:
-              code: 422
-              message: Missing required parameter
-    NotFound:
-      description: Endpoint or resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 404
-              message: Resource not found
-    TooManyRequests:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 429
-              message: Rate limit exceeded
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 401
-              message: Invalid or missing API key
-    ServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 500
-              message: Internal server error
-    Forbidden:
-      description: Current plan does not include access to this endpoint
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 403
-              message: Your plan does not include access to this endpoint
+            EUR: 0.9185
+            GBP: 0.7862
   securitySchemes:
     ApiKeyQuery:
       type: apiKey

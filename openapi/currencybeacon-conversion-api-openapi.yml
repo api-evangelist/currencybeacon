@@ -95,36 +95,6 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   responses:
-    UnprocessableEntity:
-      description: Invalid or missing required parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 422
-              message: Missing required parameter
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 401
-              message: Invalid or missing API key
-    TooManyRequests:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 429
-              message: Rate limit exceeded
     ServerError:
       description: Internal server error
       content:
@@ -135,6 +105,26 @@ components:
             meta:
               code: 500
               message: Internal server error
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 401
+              message: Invalid or missing API key
+    UnprocessableEntity:
+      description: Invalid or missing required parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 422
+              message: Missing required parameter
     Forbidden:
       description: Current plan does not include access to this endpoint
       content:
@@ -145,20 +135,29 @@ components:
             meta:
               code: 403
               message: Your plan does not include access to this endpoint
+    TooManyRequests:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 429
+              message: Rate limit exceeded
   schemas:
-    ErrorResponse:
+    Meta:
       type: object
-      description: Standard error response
+      description: Response metadata
       properties:
-        meta:
-          type: object
-          properties:
-            code:
-              type: integer
-              description: HTTP error code
-            message:
-              type: string
-              description: Human-readable error message
+        code:
+          type: integer
+          description: HTTP status code
+          example: 200
+        disclaimer:
+          type: string
+          description: Usage disclaimer text
+          example: Usage subject to terms
     ConversionResponse:
       type: object
       description: Response for currency conversion
@@ -188,18 +187,19 @@ components:
           format: double
           description: Converted amount in target currency
           example: 91.85
-    Meta:
+    ErrorResponse:
       type: object
-      description: Response metadata
+      description: Standard error response
       properties:
-        code:
-          type: integer
-          description: HTTP status code
-          example: 200
-        disclaimer:
-          type: string
-          description: Usage disclaimer text
-          example: Usage subject to terms
+        meta:
+          type: object
+          properties:
+            code:
+              type: integer
+              description: HTTP error code
+            message:
+              type: string
+              description: Human-readable error message
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
