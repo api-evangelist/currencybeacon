@@ -72,6 +72,17 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   schemas:
+    CurrenciesResponse:
+      type: object
+      description: Response for supported currencies list
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        currencies:
+          type: array
+          description: List of supported currencies
+          items:
+            $ref: '#/components/schemas/CurrencyInfo'
     CurrencyInfo:
       type: object
       description: Information about a single supported currency
@@ -116,17 +127,6 @@ components:
           type: string
           description: Usage disclaimer text
           example: Usage subject to terms
-    CurrenciesResponse:
-      type: object
-      description: Response for supported currencies list
-      properties:
-        meta:
-          $ref: '#/components/schemas/Meta'
-        currencies:
-          type: array
-          description: List of supported currencies
-          items:
-            $ref: '#/components/schemas/CurrencyInfo'
     ErrorResponse:
       type: object
       description: Standard error response
@@ -141,26 +141,6 @@ components:
               type: string
               description: Human-readable error message
   responses:
-    ServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 500
-              message: Internal server error
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            meta:
-              code: 401
-              message: Invalid or missing API key
     TooManyRequests:
       description: Rate limit exceeded
       content:
@@ -171,6 +151,26 @@ components:
             meta:
               code: 429
               message: Rate limit exceeded
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 401
+              message: Invalid or missing API key
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            meta:
+              code: 500
+              message: Internal server error
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
