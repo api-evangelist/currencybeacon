@@ -39,6 +39,14 @@ specificationVersion: '0.23'
 tags:
   - Currency
   - Exchange Rates
+  - Foreign Exchange
+  - Cryptocurrency
+  - Financial Data
+  - Historical Rates
+  - Currency Conversion
+tags_raw:
+  - Currency
+  - Exchange Rates
   - Forex
   - Cryptocurrency
   - Financial Data
